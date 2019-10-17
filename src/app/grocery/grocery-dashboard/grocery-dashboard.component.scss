@@ -1,0 +1,12 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+.flex-cont {
+    display: flex;
+    flex-direction: row;
+
+    > section {
+        flex: 1;
+    }
+}

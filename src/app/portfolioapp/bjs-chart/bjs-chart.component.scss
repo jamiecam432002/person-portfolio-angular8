@@ -1,0 +1,16 @@
+app-bjs-chart {
+    #chart {
+        height: 500px;
+        width: inherit;
+
+        .bar {
+            fill: #003DA5;
+        }
+    }
+}
+.axis--x text {
+    font-size: 12px;
+}
+.axis--y text {
+    font-size: 12px;
+}

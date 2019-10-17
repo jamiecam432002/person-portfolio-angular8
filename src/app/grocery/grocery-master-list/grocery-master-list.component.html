@@ -1,0 +1,18 @@
+<mat-list>
+    <h3 matSubheader>Meats</h3>
+    <mat-list-item role="listitem" *ngFor="let item of items | async">
+            <p matLine>
+                {{item.title}}
+            </p>
+            <mat-icon matListIcon>delete</mat-icon>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 matSubheader>Dairy</h3>
+    <mat-list-item role="listitem" *ngFor="let item of items | async">
+            <p matLine>
+                {{item.title}}
+            </p>
+            <mat-icon matListIcon>delete</mat-icon>
+    </mat-list-item>
+</mat-list>
+        

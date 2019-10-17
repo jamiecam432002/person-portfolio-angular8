@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+.intro-text .o-icon {
+    font-size: inherit;
+    width: 0.8em!important;
+    margin: 0 8px!important;
+    fill: #000!important;
+    float: none;
+    position: relative;
+    top: -4px;
+    height: 30px!important;
+}

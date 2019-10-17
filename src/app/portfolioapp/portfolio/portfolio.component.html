@@ -1,0 +1,54 @@
+<section>
+		<img class="o-shape c-baseball-head" src="../assets/portfolio/baseball.png">
+		<h1 class="intro-text">	
+			I love frameworks and libraries. 
+			<span>But I really love to code it myself.</span>
+			 How else do you get better? When something goes wrong (and it will) and the client needs it fixed NOW, do you know how it really works??
+		</h1>
+	</section>
+	
+	<section>
+		<h2 class="block-header">Data Visualization</h2>
+		<h4>2015 Toronto Blue Jays by WAR (Wins Above Replacement)</h4>
+		<app-bjs-chart [data]="data | async"></app-bjs-chart>
+	</section>
+	
+	<section class="u-clearfix slider-section">
+		<h2 class="block-header">Pure CSS3 Slider</h2>
+		<div class="o-slider u-clearfix">
+			<input type="radio" name="slider-change" id="slide1" checked>
+			<label class="o-slider__label" for="slide1">
+				<img class="o-slider__thumb" src="../assets/portfolio/josh.jpg">
+			</label>
+			<img class="o-slider__img u-img-responsive" src="../assets/portfolio/josh.jpg">
+			<input type="radio" name="slider-change" id="slide2">
+			<label class="o-slider__label" for="slide2">
+				<img class="o-slider__thumb" src="../assets/portfolio/jose.jpg">
+			</label>
+			<img class="o-slider__img u-img-responsive" src="../assets/portfolio/jose.jpg">
+	
+			<input type="radio" name="slider-change" id="slide3">
+			<label class="o-slider__label" for="slide3">
+				<img class="o-slider__thumb" src="../assets/portfolio/marco.jpg">
+			</label>
+			<img class="o-slider__img u-img-responsive" src="../assets/portfolio/marco.jpg">
+	
+			<input type="radio" name="slider-change" id="slide4">
+			<label class="o-slider__label" for="slide4">
+				<img class="o-slider__thumb" src="../assets/portfolio/sanchez.jpg">
+			</label>
+			<img class="o-slider__img u-img-responsive" src="../assets/portfolio/sanchez.jpg">
+	
+			<input type="radio" name="slider-change" id="slide5">
+			<label class="o-slider__label" for="slide5">
+				<img class="o-slider__thumb" src="../assets/portfolio/pompey.jpg">
+			</label>
+			<img class="o-slider__img u-img-responsive" src="../assets/portfolio/pompey.jpg">
+	
+		</div>
+	</section>
+	<section class="u-clearfix verticalSection">
+		<h2 class="block-header">Angular 8+</h2>
+		 <h3>I recently built a small Angular app to manage our personal finances. <a routerLink="/budget">View the App.</a></h3>
+		<a><img class="u-img-responsive" src="../assets/portfolio/budgetapp.png"></a>
+	</section>

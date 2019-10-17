@@ -1,1 +1,735 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+body {
+    font-size: 100%;
+    font-family: "Lato", sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: url(assets/portfolio/bg.png) repeat left top!important;
+    height: auto; 
+}
+ul {
+    padding-left: 0;
+    margin: 0;
+}
+li {
+    line-height: 1.2;
+}
+a {
+    text-decoration: none;
+    color: #A0B2A6;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+h1 {
+    font-size: 2.6em;
+    margin-bottom: 25px;
+    text-align: center;
+    line-height: 1.4em;
+
+    @media screen and (min-width: 600px) {
+        font-size: 3.4em;
+    }
+    @media screen and (min-width: 1000px) {
+        font-size: 4.4em;
+    }
+}
+h2 {
+    font-size: 2em;
+    color: #587B7F;
+    text-shadow: 1px 1px 1px #000;
+    margin-bottom: 50px;
+}
+h3 {
+    font-size: 1.35em;
+    margin-bottom: 25px;
+
+    @media screen and (min-width: 800px) {
+        margin-bottom: 40px;
+    }
+
+}
+input, textarea {
+    width: 100%;
+    display: inline-block;
+    font-weight: 100;
+    padding: 15px;
+    margin: 5px 0;
+    font-size: 1rem;
+    font-weight: 100;
+    outline: 0;
+}
+select{
+	margin: 5px 0;
+}
+table,
+mat-table {
+    width: 100%;
+}
+.mat-table {
+    font-family: "Lato", sans-serif;
+}
+.container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.inner-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5em 1em;
+    background: #fff;
+
+    @media screen and (min-width: 768px) {
+        padding: 1.5em 1.8em;
+    }
+}
+
+/*----------------------------*\
+   FONTS 
+\*----------------------------*/
+
+$bodyFont: 'Helvetica', sans-serif;
+$headerFont: 'Open Sans', sans-serif;
+
+/*-----------------------------*\
+   COLORS 
+\*-----------------------------*/
+
+$salmon: #CBBFBB;
+$green: #587B7F;
+$olive: #A0B2A6;
+
+$incomes: #8E9AAF;
+$expenses: #CBC0D3;
+$investments: #EFD3D7;
+$savings: #FEEAFA;
+$debts: #C17C74;
+
+/*----------------------------*\
+   MIXINS 
+\*----------------------------*/
+
+/* SIZE mixin takes a width and optional height to set an element, if height is omitted, both height and width are the same */
+
+@mixin size($width, $height: $width){
+	width: $width;
+	height: $height;
+}
+
+/* ABSOLUTE mixin allows you to set the absolute position of an element and it's 4 values */
+
+@mixin absolute($top, $right, $bottom, $left){
+	position:absolute;
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin tshadow($x, $y, $b, $color){
+	text-shadow: $x $y $b $color;
+}
+/*----------------------------*\
+    #SHAPE
+\*----------------------------*/
+
+.o-shape{
+	shape-image-threshold: 0.5;
+	float:left;
+}
+
+/*---------------------------*\
+	#LIST
+\*---------------------------*/
+
+.o-list{
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  .o-list__item{
+      margin-bottom:10px;
+  }
+  .o-list--inline .o-list__item{
+    display:inline-block;
+  }
+  .o-list--content .o-list__item{
+    list-style:disc inside none;
+  }
+  .o-list--doublespace .o-list__item{
+      margin-bottom:20px;
+  }
+
+/*----------------------*\
+	#MEDIA OBJECT
+\*----------------------*/
+
+.o-media{
+	display:flex;
+	align-items: flex-start;
+	border:3px dashed #ccc;
+	padding:15px;
+}
+.o-media__figure{
+	margin:0 1em 0 0;
+	max-width:50%;
+	
+	@media screen and (min-width:60em){
+		max-width:none;
+	}
+}
+.o-media__body{
+	flex:1 1 0%;
+}
+.o-media__title{
+	margin:0px 0px 0.5em;
+}
+.o-media--reverse .o-media__figure{
+	order:1;
+	margin:0px 0px 0px 1em;
+}
+.o-media--center{
+	align-items:center;
+}
+
+/*----------------------*\
+	#TABLES
+\*----------------------*/
+
+th,caption{
+    text-align:left;
+  }
+  caption{
+    padding:8px 0;
+  }
+  .o-table{
+    width:100%;
+    max-width:100%;
+    background-color:transparent;
+    border-spacing:0;
+    border-collapse:collapse;
+  }
+  .o-table > thead > tr:first-child > th{
+    border-top:0;  
+  }
+  .o-table > thead > tr > th{
+    vertical-align:bottom;
+    border-bottom:2px solid #ddd;
+  }
+  .o-table__tablecell{
+    padding:8px;
+    line-height:1.42857143;
+    vertical-align:top;
+    border-top:1px solid #ddd;
+  }
+  .o-table--striped tbody > tr:nth-of-type(odd){
+    background-color:#f9f9f9;
+  }
+  .o-table--bordered{
+    border:1px solid #ddd;
+  }
+  .o-table--bordered .o-table__tablecell{
+    border:1px solid #ddd;
+  }
+  .o-table--hover tbody tr:hover{
+    background-color:#f5f5f5;
+  }
+  .o-table--condensed .o-table__tablecell{
+    padding:5px;
+  }
+  
+  .o-table--responsive{
+    min-height:0.01%;
+    overflow-x:auto;
+  }
+  @media screen and (max-width:60em){
+    .o-table--responsive{
+      width:100%;
+      margin-bottom:15px;
+      overflow-y:hidden;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      border:1px solid #ddd;
+    }
+  }
+
+/*----------------------------*\
+    #BUTTONS 
+\*----------------------------*/
+
+.o-btn{
+	display: inline-block;
+	  margin-bottom: 0;
+	  font-weight: normal;
+	  text-align: center;
+	  vertical-align: middle;
+	  -ms-touch-action: manipulation;
+	      touch-action: manipulation;
+	  cursor: pointer;
+	  border: 1px solid transparent;
+	  white-space: nowrap;
+	  padding: 6px 12px;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	  color:#fff;
+	  line-height:140%;
+	  min-width:28px;
+	  min-height:28px;
+	  font-size:1em;
+}
+.o-btn:active{
+	outline:0;
+}
+.o-btn--block{
+	display:block;
+	width:100%;
+}
+.o-btn--primary{
+	background-color:#587B7F;
+}
+.o-btn--cancel{
+	background-color:rgb(253,141,60);
+}
+.o-btn--large{
+	font-size:1.75em;
+	min-height:40px;
+	min-width:40px;
+}
+.o-btn-group {
+    display: flex;
+    flex-direction: row;
+
+    .o-btn {
+        margin-right: 5px;
+    }
+}
+
+/*-----------------*\
+    #ICONS
+\*------------------*/
+
+.o-icon{
+	font-size:4.5em;
+	margin-right:.2em;
+	float:left;
+	overflow:hidden;
+	width:1em;
+	height:1em;
+	fill:#CBBFBB;
+}
+.o-icon ~ span{
+	line-height:1;
+}
+@media screen and (min-width:800px){
+	.o-list__item.o-media{
+		font-size:125%;
+	}
+}
+.o-icon--reverse {
+    transform: rotate(180deg);
+}
+.icon {
+	display: inline-block;
+	width: 0.8em;
+	height: 1em;
+	position:relative;
+	top:-4px;
+	margin:0 8px;
+	fill: currentColor;
+}
+.icon--reverse{
+	transform:rotate(180deg);
+}
+
+/*----------------------------*\
+    #SHAPESHEADER 
+\*----------------------------*/
+.c-baseball-head{
+	shape-outside: url(assets/portfolio/baseball.png);
+	display:none;
+
+	@media screen and (min-width:560px){
+		display:block;
+		width:205px;
+	}
+	@media screen and (min-width:800px){
+		width:280px;
+	}
+}
+/*----------------------------*\
+    #PURE CSS SLIDER 
+\*----------------------------*/
+
+.o-slider{
+	width: 100%;
+	position: relative;
+	margin: 0 auto;
+	max-width:866px;
+}
+.o-slider__img{
+	@include absolute(0,0,0,0);
+	transition: all 0.5s;
+	box-shadow:0 10px 20px -5px rgba(0,0,0,0.75);
+
+}
+.o-slider__label{
+	margin: 18px 1.2% 0 0;
+	border: 3px solid #999;
+	float: left;
+	cursor: pointer;
+	transition: all 0.5s;
+	opacity:0.6;
+	width:19%;
+}
+.o-slider__label:last-of-type{
+	margin-right:0;
+}
+input[name="slider-change"]{
+	display: none;
+}
+.o-slider__thumb{
+	display:block;
+	max-width:100%;
+}
+input[name="slider-change"]:checked + .o-slider__label{
+	border-color:#666;
+	opacity:1;
+}
+input[name="slider-change"] ~ .o-slider__img{
+	opacity:0;
+	transform:scale(1.1);
+}
+input[name="slider-change"]:checked + .o-slider__label + .o-slider__img{
+	opacity:1;
+	transform:scale(1);
+}
+.o-slider {
+    padding-top: 220px;
+}
+@media screen and (min-width: 440px) {
+    .o-slider {
+        padding-top: 260px;
+    }
+}
+@media screen and (min-width: 510px) {
+    .o-slider {
+        padding-top: 300px;
+    }
+}
+@media screen and (min-width: 600px) {
+    .o-slider {
+        padding-top: 340px;
+    }
+}
+@media screen and (min-width: 668px) {
+    .o-slider {
+        padding-top: 375px;
+    }  
+}
+@media screen and (min-width: 730px) {
+    .o-slider {
+        padding-top: 410px;
+    }
+}
+@media screen and (min-width: 815px) {
+    .o-slider {
+        padding-top: 445px;
+    }
+}
+@media screen and (min-width: 885px){
+    .o-slider {
+        padding-top: 485px;
+    }
+}
+
+
+
+/*-------------------------*\
+	#BACKGROUND COLORS 
+\*-------------------------*/
+
+.u-bg-active{
+    background-color:#f5f5f5;
+  }
+  .u-bg-success{
+    background-color:#dff0d8;
+  }
+  .u-bg-info{
+    background-color:#d9edf7;
+  }
+  .u-bg-warning{
+    background-color:#fcf8e3;
+  }
+  .u-bg-danger{
+    background-color:#fcf8e3;
+  }
+  
+  
+  /*-------------------------*\
+      #CONTROL PADDING
+  \*-------------------------*/
+  
+  .u-no-padding{
+      padding:0!important;
+  }
+  .u-inset{
+      padding:10px;
+  }
+  
+  /*-------------------------*\
+      #FLUID WIDTHS 
+  \*-------------------------*/
+  
+  .u-1of2{
+    width:50%!important;
+    flex:none!important;
+  }
+  .u-1of3{
+    width:33.333%!important;
+    flex:none!important;
+  }
+  .u-1of4{
+      width:25%!important;
+      flex:none!important;
+  }
+  .u-1of5{
+      width:20%!important;
+      flex:none!important;
+  }
+  
+  
+  
+  
+  
+  /*-------------------------*\
+      #ALIGNING TEXT
+  \*-------------------------*/
+  
+  .u-textcenter{
+    text-align:center!important;
+  }
+  .u-textleft{
+      text-align:left!important;
+  }
+  .u-textright{
+      text-align:right!important;
+  }
+  
+  
+  
+  
+  
+  /*-------------------------*\
+      #ALIGN ELEMENTS
+  \*-------------------------*/
+  
+  .u-fl-left{
+      float:left!important;
+  }
+  .u-fl-right{
+      float:right!important;
+  }
+  .u-align-block{
+      display:block;
+      margin-right:auto!important;
+      margin-left:auto!important;
+  }
+  
+  
+  
+  
+  
+  
+  /*----------------------*\
+      #HIDE/SHOW ELEMENTS
+  \*----------------------*/
+  
+  .u-hide{
+      display:none!important;
+  }
+  .u-show{
+      display:block!important;
+  }
+  
+  
+  
+  
+  
+  /*-------------------------*\
+      #POSITIONING
+  \*-------------------------*/
+  
+  .u-fixed{
+      position:fixed!important;
+  }
+  .u-position{
+      position:relative!important;
+  }
+  
+  
+  
+  
+  
+  /*-------------------------*\
+      #IMAGES
+  \*-------------------------*/
+  
+  .u-img-responsive{
+      display:block;
+      max-width:100%;
+      height:auto;
+  }
+  
+  
+  /*----------------------*\
+      #MISCELLANEOUS 
+  \*----------------------*/
+  
+  .u-clearfix{
+      clear:both;
+      content: "";
+      display:table;
+  }
+
+  .block-header {
+    text-align: center;
+    line-height: 1.9;
+    margin: 30px 0;
+}
+.block-header:before,
+.block-header:after{
+	display:block;
+	content:'';
+	height:1px;
+	background-color:$salmon;
+	box-shadow:0 0 7px 1px rgba(0,0,0,.3);
+}
+.intro-text{
+	font-size:2.2em;
+
+	@media screen and (min-width:640px){
+		font-size:2.4em;
+	}
+}
+.intro-text span{
+	font-size:inherit;
+	color:orange;
+	animation-name: colorText;
+	animation-duration: 16s;
+	animation-iteration-count: infinite;
+
+}
+@keyframes colorText{
+	0%{
+		color:orange;
+	}
+	18%{
+		color:green;
+	}
+	36%{
+		color:magenta;
+	}
+	50%{
+		color:steelblue;
+	}
+	68%{
+		color:magenta;
+	}
+	86%{
+		color:green;
+	}
+	100%{
+		color:orange;
+	}
+}
+.incomes {
+    background-color: $incomes;
+}
+.debts {
+    background-color: $debts;
+}
+.investments {
+    background-color: $investments;
+}
+.expenses {
+    background-color: $expenses;
+}
+.savings {
+    background-color: $savings;
+}
+
+/*----------------------*\
+      #FORMS 
+  \*----------------------*/
+
+.o-form-group{
+	margin-bottom:15px;
+}
+.o-form-group--inline {
+    display: inline-block;
+}
+.o-form-control {
+  display: block;
+  width: 100%;
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 1em;
+  line-height: 1.42857143;
+  font-weight:300;
+  color: #000;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #BBB;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.o-form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.o-form-control::-moz-placeholder {
+  color: #888;
+  opacity: 1;
+}
+.o-form-control:-ms-input-placeholder {
+  color: #888;
+}
+.o-form-control::-webkit-input-placeholder {
+  color: #888;
+}
+.o-form-control[disabled],
+.o-form-control[readonly],
+fieldset[disabled] .o-form-control {
+  background-color: #eeeeee;
+  opacity: 1;
+}
+.o-form-control[disabled],
+fieldset[disabled] .o-form-control {
+  cursor: not-allowed;
+}
+
+.mat-list-item {
+    font-family: "Lato", sans-serif;
+}
+select.o-form-control {
+    height: 37px;
+}
+
