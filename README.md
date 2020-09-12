@@ -1,3 +1,7 @@
+This is my personal portfolio site which which is built entirely with Angular 8+
+
+DEMO: https://jamiecameronfreelance.net
+
 # Portfolio
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.5.
