@@ -1,0 +1,78 @@
+<div class="page-content inner-container">
+    <h2>Master List:</h2>
+    <mat-toolbar class="actions-bar">
+        <mat-toolbar-row fxLayout fxLayoutGap="10px" fxLayoutAlign="end center">
+            <button mat-raised-button color="primary" (click)="openDialog(selectedFilter)" matTooltip="Add to master list">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="deleteItemsFromList(selection.selected)"
+                [disabled]="selection.selected.length == 0" matTooltip="Delete item(s)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" routerLink="/grocery" matTooltip="Shopping list">
+                <mat-icon>shopping</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" routerLink="/grocery/categories" matTooltip="List categories">
+                <mat-icon>category</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-form-field style="display:none">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+    <div class="filter-container">
+        <mat-select [(value)]="selectedFilter" (selectionChange)="onSelectionChanged($event)">
+            <mat-option value="All">All</mat-option>
+            <mat-option *ngFor="let cat of categories" value="{{cat.title}}">{{cat.title}}</mat-option>
+        </mat-select>
+    </div>    
+    
+    
+    
+    <mat-table [dataSource]="mldataSource" [trackBy]="trackByUid" matSort #msort="matSort"
+        class="mat-elevation-z8 grocery-table">
+
+        <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+        <!-- Selection Column -->
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+        <!-- Category Column -->
+        
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+            <mat-cell *matCellDef="let element"> <a (click)="editMasterItem($event, element)">{{element.title}}</a> </mat-cell>
+        </ng-container>
+
+        <!-- Default Quantity Column -->
+        <ng-container matColumnDef="defaultQty">
+            <mat-header-cell *matHeaderCellDef> Default Qty </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.defaultQty}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="icon-col"> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="icon-col"><mat-icon matListIcon svgIcon="{{element.category}}"></mat-icon></mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="mlistDisplayedCols"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: mlistDisplayedCols;" (click)="selection.toggle(row)">
+        </mat-row>
+    </mat-table>
+    <mat-paginator [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+</div>

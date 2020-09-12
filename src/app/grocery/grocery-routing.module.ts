@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GroceryDashboardComponent } from './grocery-dashboard/grocery-dashboard.component';
-import { GroceryDetailComponent } from './grocery-detail/grocery-detail.component';
-import { GroceryListComponent } from './grocery-list/grocery-list.component';
-import { GroceryMasterListComponent } from './grocery-master-list/grocery-master-list.component';
+import { GdashboardComponent } from './gdashboard/gdashboard.component';
+import { GmlistComponent } from './gdashboard/gmlist/gmlist.component';
+import { GcategoriesComponent } from './gcategories/gcategories.component';
 
 
 const routes: Routes = [
-  { path: 'grocery-dashboard', component: GroceryDashboardComponent },
-  { path: 'list-detail:id', component: GroceryDetailComponent },
+  { path: '', component: GdashboardComponent },
+  { path: 'master-list', component: GmlistComponent },
+  { path: 'categories', component: GcategoriesComponent}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class GroceryRoutingModule { }

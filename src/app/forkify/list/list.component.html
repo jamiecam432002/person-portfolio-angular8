@@ -1,0 +1,35 @@
+<h2>My Shopping List</h2>
+
+<ul class="shopping__list">
+    <li class="shopping__item" *ngFor="let item of shoppingList" [attr.data-id]="item.id">
+        <div class="shopping__count">
+            <input type="number" [(ngModel)]="item.count" name="item.id" step="{{item.count}}" class="shopping__count-value">
+            <p>{{ item.unit }}</p>
+        </div>
+        <p class="shopping__description">{{ item.ingredient }}</p>
+        <button class="shopping__delete btn-tiny" (click)="onItemDelete(item.id)">
+            <svg>
+                <use href="../../assets/forkify/icons.svg#icon-circle-with-cross"></use>
+            </svg>
+        </button>
+    </li>            
+</ul>
+<button class="btn-small" (click)="onListClear(shoppingList)">
+    <svg class="btn__icon">
+        <use href="../../assets/forkify/icons.svg#icon-shopping-cart"></use>
+    </svg>
+    <span>Clear shopping list</span>
+</button>
+<!-- hide the add to grocery list button until i have a chance to set up grocery app -->
+<!--<button class="btn-small" (click)="onSendToGroceryList(shoppingList)">
+    <svg class="btn__icon">
+        <use href="../../assets/forkify/icons.svg#icon-shopping-cart"></use>
+    </svg>
+    <span>Add to grocery list</span>
+</button>-->
+
+<div class="copyright">
+    &copy; by James Cameron. Based on final code challenge in Jonas Schmedtmann's excellent Complete Javascript Course
+    on Udemy<br> Powered by
+    <a href="http://food2fork.com" target="_blank" class="link">Food2Fork.com</a>.
+</div>

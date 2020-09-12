@@ -1,0 +1,11 @@
+input {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: rgba(0,0,0,.87);
+}
+mat-form-field {
+    margin-right: 12px;
+}
+mat-form-field.form-full-width {
+    width: 100%;
+}

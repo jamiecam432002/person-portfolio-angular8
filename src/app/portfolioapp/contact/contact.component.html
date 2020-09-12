@@ -1,2 +1,39 @@
-<p>contact works!</p>
+<div class="page-content inner-container">
+<h1>Contact</h1>
+<div *ngIf="submitted==false">
+        <h3>If you'd like the chance to work together or simply want to touch base, you can fill out the form below - or for an
+            even faster response try emailing me jamiecam43@gmail.com.</h3>
+            <p><sup>**</sup>All fields are required.</p>
+        <form [formGroup]="contactForm" novalidate (ngSubmit)=onSubmit(contactForm)>
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+                <mat-error *ngIf="hasError('name', 'required')">
+                    Your name is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email">
+                <mat-error *ngIf="hasError('email', 'required')">
+                    A contact email is required.
+                </mat-error>
+                <mat-error *ngIf="hasError('email', 'email')">
+                    A valid contact email is required.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form-full-width">
+                <mat-label>Message</mat-label>
+                <textarea matInput formControlName="message"></textarea>
+            </mat-form-field>
+            <div class="o-btn-group">
+                <button type="submit" class="o-btn o-btn--primary" [disabled]="!contactForm.valid">Submit</button>
+            </div>
+        </form>
+</div>
+<div *ngIf="submitted==true">
+    <h2>Thank you for getting in touch! I will respond as quickly as I can.</h2>
+</div>
+</div>
+
 

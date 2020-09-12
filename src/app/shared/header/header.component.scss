@@ -21,9 +21,15 @@
        background: url(../../../assets/portfolio/jamie-head.jpg) no-repeat left top;
        z-index: 39;
        border-radius: 50%;
-       background-size: 240px;
-       height: 240px;
-       width: 240px;
+       background-size: 200px;
+       height: 200px;
+       width: 200px;
+
+       @media screen and (min-width: 800px) {
+           background-size: 240px;
+           height: 240px;
+           width: 240px;
+       }
        
    }
 }
@@ -43,7 +49,7 @@
             
             a {
                 color: #cbbfbb;
-                font-size: 1.5em;
+                font-size: 1.8em;
                 text-shadow: 0px 0px 4px #fff;
 
                 @media screen and (min-width: 840px) {

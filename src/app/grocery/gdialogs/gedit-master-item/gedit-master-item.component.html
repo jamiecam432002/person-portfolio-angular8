@@ -1,0 +1,23 @@
+<mat-dialog-content>
+<form [formGroup]="editMasterItemForm">
+    <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" name="category">
+            <mat-option *ngFor="let cat of categories" value="{{cat.title}}">{{cat.title}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" formControlName="title" name="title">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Default Qty</mat-label>
+        <input type="number" matInput formControlName="defaultQty" name="defaultQty">
+    </mat-form-field>
+    
+</form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="saveItem()">Save</button>
+    <button mat-raised-button (click)="close()">Cancel</button>
+</mat-dialog-actions>

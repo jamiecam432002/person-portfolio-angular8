@@ -1,6 +1,7 @@
 export interface GItem {
     name: string,
-    id: number,
+    id: string,
     defaultQty: number,
-    category: string
+    category: string,
+    position: number
 }

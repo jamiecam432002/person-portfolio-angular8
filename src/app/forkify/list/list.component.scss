@@ -1,0 +1,54 @@
+.shopping__list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+.shopping__item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1em 0;
+  border-bottom: 1px solid #F2EFEE;
+  position: relative; 
+}
+.shopping__count {
+  flex: 0 0 4em;
+  padding: .4em .5em;
+  border: 1px solid #F2EFEE;
+  border-radius: 3px;
+  margin-right: 2em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; 
+}
+.shopping__count input {
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.8em;
+  text-align: center;
+  border: none;
+  width: 2.5em;
+  border-radius: 3px;
+  padding: 0;
+  margin: 0;
+}
+.shopping__count input:focus {
+  outline: none;
+  background-color: #F2EFEE; 
+}
+.shopping__count p {
+  font-size: 0.8em;
+  margin: 0;    
+}
+.shopping__description {
+  flex: 1;
+  font-size: 0.9em;
+  margin-top: .3em;
+  margin-right: 2em; }
+.shopping__delete {
+  margin-top: .5em;
+  position: absolute;
+  right: 10px;
+  background-image: linear-gradient(to right, transparent 0%, #fff 40%, #fff 100%);
+  width: 3.75em;
+  padding-left: 2em;
+  overflow: hidden;
+}

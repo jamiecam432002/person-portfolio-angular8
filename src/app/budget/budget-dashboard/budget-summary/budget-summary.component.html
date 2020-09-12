@@ -1,0 +1,154 @@
+<div class="o-dashboard">
+    <table id="dashboard-summary-table" class="o-table o-table--bordered dashboard-totals">
+        <tbody>
+            <tr>
+                <td *ngIf="viewFilter == 'default'" class="o-table__tablecell income">Income: <span>{{incomeTotals | currency}}</span></td>
+                <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell income">Income: <span>{{incomeNormalizedTotals | currency}}</span>
+                </td>
+                <td *ngIf="viewFilter == 'default'" class="o-table__tablecell expense">Expenses: <span>{{expenseTotals | currency}}</span></td>
+                <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell expense">Expenses: <span>{{expenseNormalizedTotals | currency}}</span></td>
+                <td class="o-table__tablecell investment">Investments: <span>{{investmentTotals | currency}}</span></td>
+                <td class="o-table__tablecell debt">Debts: <span>{{debtTotals | currency}}</span></td>
+                <td *ngIf="viewFilter == 'default'" class="o-table__tablecell saving">Savings: <span>{{savingsTotals | currency}}</span></td>
+                <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell saving">Savings: <span>{{savingsNormalizedTotals | currency}}</span></td>
+                <td *ngIf="viewFilter == 'default'" class="o-table__tablecell nets">Net: <span>{{cashflowTotal | currency}}</span></td>
+                <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell nets">Net: <span>{{cashflowNormalizedTotal | currency}}</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="o-fb-grid o-fb-grid--gutters o-dashboard">
+    <div>
+        <table class="o-table o-table--condensed dashboard-summary-table dashboard-summary-table--incomes">
+            <thead>
+                <tr class="incomes">
+                    <td class="o-table__tablecell">Incomes</td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">Amount</td>
+                    <td class="o-table__tablecell o-table__tablecell--delete">&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let income of incomeItems$ | async">
+                    <td class="o-table__tablecell"><a routerLink="add-edit-record/Income/{{income.id}}">{{ income.title }}</a>
+                    </td>
+                    <td *ngIf="viewFilter == 'default'" class="o-table__tablecell dashboard-summary-table__amount">{{ income.amount | currency }}</td>
+                    <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell dashboard-summary-table__amount">
+                        {{ income.normalized | currency }}</td>
+                    <td class="o-table__tablecell o-table__tablecell--delete"><button class="material-icons"
+                            (click)="deleteRecord(income)">&#xE16C;</button></td>
+                </tr>
+                <tr class="addRow">
+                    <td class="o-table__tablecell">
+                        <a class="o-btn addBtn incomes" routerLink="add-edit-record/Income/new">Add Another</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="o-table o-table--condensed dashboard-summary-table">
+            <thead>
+                <tr class="expenses">
+                    <td class="o-table__tablecell">Expenses</td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">Amount</td>
+                    <td class="o-table__tablecell">&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let expense of expenseItems$ | async">
+                    <td class="o-table__tablecell"><a
+                            routerLink="add-edit-record/Expense/{{expense.id}}">{{ expense.title }}</a></td>
+                    <td *ngIf="viewFilter == 'default'" class="o-table__tablecell dashboard-summary-table__amount">
+                        {{ expense.amount | currency }}</td>
+                    <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell dashboard-summary-table__amount">
+                        {{ expense.normalized | currency }}</td>
+                    <td class="o-table__tablecell o-table__tablecell--delete"><button class="material-icons"
+                            (click)="deleteRecord(expense)">&#xE16C;</button></td>
+                </tr>
+                <tr class="addRow">
+                    <td class="o-table__tablecell" colspan="3">
+                        <a class="o-btn addBtn expenses" routerLink="add-edit-record/Expense/new">Add Another</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="o-table o-table--condensed dashboard-summary-table">
+            <thead>
+                <tr class="investments">
+                    <td class="o-table__tablecell">Investments</td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">Value</td>
+                    <td class="o-table__tablecell">&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let investment of investmentItems$ | async">
+                    <td class="o-table__tablecell"><a
+                            routerLink="add-edit-record/Investment/{{investment.id}}">{{ investment.title }}</a></td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">
+                        {{ investment.assetValue | currency }}</td>
+                    <td class="o-table__tablecell o-table__tablecell--delete"><button class="material-icons"
+                            (click)="deleteRecord(investment)">&#xE16C;</button></td>
+                </tr>
+                <tr class="addRow">
+                    <td class="o-table__tablecell" colspan="3">
+                        <a class="o-btn addBtn investments" routerLink="add-edit-record/Investment/new">Add Another</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="o-table o-table--condensed dashboard-summary-table">
+            <thead>
+                <tr class="debts">
+                    <td class="o-table__tablecell">Debts</td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">Amount</td>
+                    <td class="o-table__tablecell">&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let debt of debtItems$ | async">
+                    <td class="o-table__tablecell"><a routerLink="add-edit-record/Debt/{{debt.id}}">{{ debt.title }}</a></td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">{{ debt.owing | currency }}</td>
+                    <td class="o-table__tablecell o-table__tablecell--delete"><button class="material-icons"
+                            (click)="deleteRecord(debt)">&#xE16C;</button></td>
+                </tr>
+                <tr class="addRow">
+                    <td class="o-table__tablecell" colspan="3">
+                        <a class="o-btn addBtn debts" routerLink="add-edit-record/Debt/new">Add Another</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="o-table o-table--condensed dashboard-summary-table">
+            <thead>
+                <tr class="savings">
+                    <td class="o-table__tablecell">Savings</td>
+                    <td class="o-table__tablecell dashboard-summary-table__amount">Amount</td>
+                    <td class="o-table__tablecell">&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let saving of savingsItems$ | async">
+                    <td class="o-table__tablecell"><a routerLink="add-edit-record/Saving/{{saving.id}}">{{ saving.title }}</a>
+                    </td>
+                    <td *ngIf="viewFilter == 'default'" class="o-table__tablecell dashboard-summary-table__amount">
+                        {{ saving.amount | currency }}</td>
+                    <td *ngIf="viewFilter == 'normalized'" class="o-table__tablecell dashboard-summary-table__amount">
+                        {{ saving.normalized | currency }}</td>
+                    <td class="o-table__tablecell o-table__tablecell--delete"><button class="material-icons"
+                            (click)="deleteRecord(saving)">&#xE16C;</button></td>
+                </tr>
+                <tr class="addRow">
+                    <td class="o-table__tablecell" colspan="3">
+                        <a class="o-btn addBtn savings" routerLink="add-edit-record/Saving/new">Add Another</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

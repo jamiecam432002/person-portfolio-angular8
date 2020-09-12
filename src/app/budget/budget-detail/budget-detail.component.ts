@@ -6,7 +6,22 @@ import { FItemService } from './../fitem.service';
 import { FItem } from '../fitem';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import RRule from 'rrule';
+import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, getDay } from 'date-fns';
+import moment from 'moment-timezone';
 
+export interface Frequency {
+  value: number;
+  viewValue: string;
+}
+
+export interface Rule {
+  freq: number;
+  interval?: number;
+  byweekday?: number;
+  bymonthday?: number;
+  byyearday?: number;
+}
 
 @Component({
   selector: 'app-budget-detail',
@@ -17,8 +32,14 @@ export class BudgetDetailComponent implements OnInit {
 
   item: Observable<any>;
 
-  frequencies = ['Weekly', 'Biweekly', 'Monthly', 'Annually', 'Anal'];
-  types = ['Income', 'Expense', 'Investment', 'Debt', 'Savings'];
+  //frequencies = ['Weekly', 'Biweekly', 'Monthly', 'Annually', 'Anal'];
+  frequencies: Frequency[] = [
+    { value: 3, viewValue: 'Weekly' },
+    { value: 2, viewValue: 'Biweekly'},
+    { value: 1, viewValue: 'Monthly'},
+    { value: 0, viewValue: 'Annually'}
+  ]
+  types = ['Income', 'Expense', 'Investment', 'Debt', 'Saving'];
   methods = ['Automatic Deduction', 'Automatic Deposit', 'Manual Bank Transfer'];
   
   budgetForm: FormGroup;
@@ -31,93 +52,139 @@ export class BudgetDetailComponent implements OnInit {
   type = new FormControl('', [Validators.required]);
   frequency = new FormControl('', [Validators.required]);
   method = new FormControl('', [Validators.required]);
-  initialDate = new FormControl('', [Validators.required]);
-  nextDate = new FormControl('', [Validators.required]);
+  start = new FormControl('',);
 
-
-  // the properties on model are used to set defaults in the select of the form
-  model: FItem = <FItem>{
-    type: "Income",
-    frequency: "Weekly",
-    method: "Automatic Deduction"
-  };
   submitted = false;
   newRecord: Boolean = true;
   docId: string;
+  docType: string;
   
 
   constructor(private itemService: FItemService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.budgetForm = new FormGroup({
-      title: this.title,
-      amount: this.amount,
-      assetValue: this.assetValue,
-      rate: this.rate,
-      owing: this.owing,
-      notes: this.notes,
-      type: this.type,
-      frequency: this.frequency,
-      method: this.method,
-      initialDate: this.initialDate,
-      nextDate: this.nextDate
-    });
-
 
     this.activatedRoute.paramMap.subscribe(params => {
-      if(params.has('id')){
+      // if the id parameter is not "new", then the record is being edited
+      
+      if(params.get('id') != "new"){
         this.docId = params.get('id');
         this.newRecord = false;
         this.item = this.itemService.getItem(this.docId);
+        this.docType = params.get('type');
+        console.log(this.docType + " is the document type");
         this.item.subscribe(data => {
-          this.title.setValue(data.title);
-          this.amount.setValue(data.amount);
-          this.assetValue.setValue(data.assetValue);
-          this.rate.setValue(data.rate);
-          this.owing.setValue(data.owing);
-          this.notes.setValue(data.notes);
-          this.type.setValue(data.type);
-          this.frequency.setValue(data.frequency);
-          this.method.setValue(data.method);
-          this.initialDate.setValue(data.initialDate.toDate());
-          this.nextDate.setValue(data.nextDate.toDate());
+          console.log(data);
+          if (this.docType == "Income" || this.docType == "Expense" || this.docType == "Saving") {
+            this.budgetForm = new FormGroup({
+              type: new FormControl(this.docType, [Validators.required]),
+              title: new FormControl(data.title),
+              amount: new FormControl(data.amount, [Validators.required]),
+              frequency: new FormControl(data.frequency, [Validators.required]),
+              method: new FormControl(data.method, [Validators.required]),
+              start: new FormControl(data.start.toDate()),
+              notes: new FormControl(data.notes),
+            });
+          } else if (this.docType == "Debt") {
+            this.budgetForm = new FormGroup({
+              type: new FormControl(this.docType, [Validators.required]),
+              title: new FormControl(data.title),
+              owing: new FormControl(data.owing, [Validators.required]),
+              rate: new FormControl(data.rate, [Validators.required]),
+              notes: new FormControl(data.notes),
+            });
+          } else if (this.docType == "Investment") {
+            this.budgetForm = new FormGroup({
+              type: new FormControl(this.docType, [Validators.required]),
+              title: new FormControl(data.title),
+              assetValue: new FormControl(data.assetValue, [Validators.required]),
+              notes: new FormControl(data.notes),
+            });
+          }
 
         })
+      } else {
+        this.docType = params.get('type');
+        console.log(this.docType);
+
+        if(this.docType == "Income" || this.docType == "Expense" || this.docType == "Saving") {
+          this.budgetForm = new FormGroup({
+            type: new FormControl(this.docType, [Validators.required]),
+            title: new FormControl(''),
+            amount: new FormControl(0, [Validators.required]),
+            frequency: new FormControl('', [Validators.required]),
+            method: new FormControl('', [Validators.required]),
+            start: new FormControl(''),
+            notes: new FormControl(''),
+          });
+        } else if(this.docType == "Debt") {
+          this.budgetForm = new FormGroup({
+            type: new FormControl(this.docType, [Validators.required]),
+            title: new FormControl(''),
+            owing: new FormControl(0, [Validators.required]),
+            rate: new FormControl(0, [Validators.required]),
+            notes: new FormControl(''),
+          });
+        } else if (this.docType == "Investment") {
+          this.budgetForm = new FormGroup({
+            type: new FormControl(this.docType, [Validators.required]),
+            title: new FormControl(''),
+            assetValue: new FormControl(0, [Validators.required]),
+            notes: new FormControl(''),
+          });
+        }
+        
       }
       
     })
-
-
-    /*if(this.activatedRoute.params._value.id){
-      this.newRecord = false;
-      this.docId = this.activatedRoute.params._value.id;
-      this.item = this.itemService.getItem(this.docId);
-      this.item.subscribe(data => {
-        
-        this.model = data;
-        this.model.initialDate = data.initialDate.toDate();
-        this.model.nextDate = data.nextDate.toDate();
-      });
-    }*/
   }
   public hasError = (controlName: string, errorName: string) => {
     return this.budgetForm.controls[controlName].hasError(errorName);
   }
-  onSubmit(formValues) {
-    console.log(this.budgetForm.value);
+  onSubmit(event) {
+    event.preventDefault();
+    //console.log(this.budgetForm.value);
 
     // gather up the form values including the ones that are optional based on type
     let newDoc = this.budgetForm.value;
+    let dayofweek = getDay(newDoc.start) - 1;
 
-    /*if (this.budgetForm.value.type == 'Investment' || this.budgetForm.value.type == 'Debt') {
-      delete newDoc.frequency;
-      delete newDoc.method;
-    }*/
-    // get rid of any undefined values - will happen if field is not required
-    Object.keys(newDoc).forEach(key => newDoc[key] === undefined ? delete newDoc[key] : '');
-    //newDoc.initialDate = firebase.firestore.Timestamp.fromDate(newDoc.initialDate);
-    //merge the form values with the model values from the selects
-    //newDoc = { ...newDoc, ...this.model };
+    if(dayofweek < 0) {
+      dayofweek = 6;
+    }
+
+    if(newDoc.type == 'Income' || newDoc.type == 'Expense' || newDoc.type == 'Saving') {
+      // create a new object to populate rrule on the database object but only for types income, expense and saving
+      let rrule: Rule = {
+        freq: newDoc.frequency,
+
+      };
+
+      // frequency is "weekly"
+      if (newDoc.frequency == 3) {
+        rrule.freq = 2;
+        rrule.interval = 1;
+        rrule.byweekday = dayofweek;
+        newDoc.normalized = newDoc.amount * 52 / 12;
+
+      } // frequency is "biweekly"
+        else if (newDoc.frequency == 2) {
+        rrule.interval = 2;
+        rrule.byweekday = dayofweek;
+        newDoc.normalized = newDoc.amount * 26 / 12;
+
+      } // frequency is "annually"
+        else if (newDoc.frequency == 1) {
+        newDoc.normalized = newDoc.amount;
+
+      }  // frequency is "annually"
+        else if (newDoc.frequency == 0) {
+        newDoc.normalized = newDoc.amount / 12;
+      }
+    
+      newDoc.rrule = rrule;
+    }
+    console.log(newDoc);
     if(this.newRecord == true) {
       this.createNewRecord(newDoc);
     }else{
@@ -127,11 +194,8 @@ export class BudgetDetailComponent implements OnInit {
   }
   
   createNewRecord(budgetFormValue) {
-    
       this.itemService.addItem(budgetFormValue);
       this.router.navigate(['/budget']);
-    
-    
   }
 
   updateRecord(budgetFormValue) {
@@ -139,13 +203,13 @@ export class BudgetDetailComponent implements OnInit {
     this.router.navigate(['/budget']);
   }
 
-  cancelEdit() {
+  deleteRecord() {
+    this.itemService.deleteFromRecord(this.docId);
     this.router.navigate(['/budget']);
   }
 
-
-  get diagnostic() {
-    return JSON.stringify(this.model);
+  cancelEdit() {
+    this.router.navigate(['/budget']);
   }
 
 }

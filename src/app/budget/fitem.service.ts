@@ -28,26 +28,22 @@ export class FItemService {
   }
 
   getItems(): Observable<FItem[]> {
-    /*const items$ = this.items$
-    .pipe(
-      tap(() => console.log("http request made")),
-      shareReplay()
-    );
-    items$.subscribe(data => {
-      console.log(data);
-    })*/
-    //this.itemsCollection = this.db.collection<FItem>(this.basePath);
+  
     this.items$ = this.itemsCollection.snapshotChanges().pipe(
       tap(() => console.log("http request made")),
       map(actions => actions.map(action => {
         const data = action.payload.doc.data() as FItem;
+        let startDate;
+        if(data.start) {
+          startDate = data.start.toDate();
+          data.start = startDate;
+        }
         const id = action.payload.doc.id;
         return { id, ...data };
       })),
       shareReplay()
     );
     return this.items$;
-    
   }
 
   getItem(key: string): Observable<any> {
@@ -74,6 +70,10 @@ export class FItemService {
     let itemID = item.id;
     console.log(itemID);
     this.itemsCollection.doc(itemID).delete();
+  }
+
+  deleteFromRecord(id) {
+    this.itemsCollection.doc(id).delete();
   }
 
   updateItem(id, docData) {

@@ -1,0 +1,68 @@
+<div class="page-content inner-container">
+    <h2>Categories:</h2>
+    <mat-toolbar class="actions-bar">
+        <mat-toolbar-row fxLayout fxLayoutGap="10px" fxLayoutAlign="end center">
+
+            <button mat-raised-button color="primary" (click)="openDialog()" matTooltip="Add new category">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" (click)="deleteCategoriesFromList(selection.selected)" matTooltip="Delete category(s)"
+                [disabled]="selection.selected.length == 0">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" routerLink="/grocery" matTooltip="Shopping list">
+                <mat-icon>shopping</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" routerLink="/grocery/master-list" matTooltip="Master list">
+                <mat-icon>edit</mat-icon>
+            </button>
+
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-table [dataSource]="ldataSource" matSort #lsort="matSort" [trackBy]="trackByUid" class="mat-elevation-z8 grocery-table">
+
+        <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Selection Column -->
+        <ng-container matColumnDef="selection">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+        </ng-container>
+
+        <!-- Qty Column -->
+        <ng-container matColumnDef="qty">
+            <mat-header-cell *matHeaderCellDef> Qty </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="listDisplayedCols"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: listDisplayedCols;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+</div>

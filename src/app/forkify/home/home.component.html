@@ -1,0 +1,33 @@
+<div class="forkify">
+    <header class="forkify-header">
+        <div class="logo">
+            <img src="../../../assets/forkify/logo.png" alt="Logo" class="header__logo">
+        </div>
+        <div class="searchform">
+            <form [formGroup]="searchForm" novalidate class="search" (ngSubmit)=onSubmitSearch(searchForm)>
+                <input formControlName="search" type="text" class="search__field"
+                    placeholder="Search over 1,000,000 recipes...">
+                <button class="btn search__btn">
+                    <svg class="search__icon">
+                        <use href="../../../assets/forkify/icons.svg#icon-magnifying-glass"></use>
+                    </svg>
+                    <span>Search</span>
+                </button>
+            </form>
+        </div>
+        <app-likes class="forkify-likes" [likes]="likes" (recipeChange)="onRecipeChange($event)"></app-likes>
+    
+        
+    </header>
+    <div class="forkify-content">
+        <app-search [results]="results" [isLoading]="searchIsLoading" [isActive]="activeRecipe"
+            (recipeChange)="onRecipeChange($event)" [resultsShouldFold]="shouldResultsFold" (unfoldResults)="onUnfoldResults($event)" class="forkify-results__results"></app-search>
+        <div class="forkify-recipe" (click)="recipeClick($event)">
+            <app-recipe [recipe]="recipe" [isLoading]="recipeIsLoading" [recipeIsLiked]="recipeIsLiked" (addIngredients)="onAddIngredients($event)" (toggleLikeRecipe)="onRecipeLikeToggle($event)">
+            </app-recipe>
+        </div>
+        <app-list [shoppingList]="shoppingList" class="forkify-shopping" (clearList)="onClearList($event)"
+            (deleteItem)="onDeleteIngredient($event)"></app-list>
+    
+    </div>
+</div>

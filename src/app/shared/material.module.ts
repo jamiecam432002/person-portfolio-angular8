@@ -6,7 +6,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
-import { MatNativeDateModule, MatDatepickerModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { MatNativeDateModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatDialogModule } from '@angular/material';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
@@ -22,6 +31,16 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         MatDatepickerModule,
         MatInputModule,
         MatSelectModule,
+        MatButtonToggleModule,
+        MatProgressSpinnerModule,
+        MatSlideToggleModule,
+        MatSidenavModule,
+        MatSortModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        LayoutModule,
+        MatPaginatorModule,
+        MatTooltipModule
     ],
     exports: [
         CommonModule,
@@ -35,6 +54,16 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         MatDatepickerModule,
         MatInputModule,
         MatSelectModule, 
+        MatButtonToggleModule,
+        MatProgressSpinnerModule,
+        MatSlideToggleModule,
+        MatSidenavModule,
+        MatSortModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        LayoutModule,
+        MatPaginatorModule,
+        MatTooltipModule
     ]
 })
 

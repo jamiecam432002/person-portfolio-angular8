@@ -1,0 +1,13 @@
+mat-form-field {
+    margin-right: 12px;
+}
+mat-form-field.form-full-width {
+    width: 100%;
+}
+mat-form-field.detail-title-field {
+    width: 100%;
+
+    @media screen and (min-width: 800px) {
+        width: 70%;
+    }
+}

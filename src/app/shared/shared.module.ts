@@ -9,23 +9,31 @@ import { FirebaseModule } from './firebase.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { TruncatePipe } from './truncate.pipe';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [TruncatePipe],
   imports: [
     CommonModule,
     MaterialModule,
     AngularSvgIconModule,
     FirebaseModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    NgxPaginationModule
   ],
   exports: [
     MaterialModule,
     AngularSvgIconModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    NgxPaginationModule,
+    TruncatePipe
   ],
 })
 export class SharedModule { 

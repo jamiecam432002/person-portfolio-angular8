@@ -1,0 +1,282 @@
+.calendarActions {
+	h2 {
+        margin: 0;
+        text-shadow: none;
+        color: #000;
+        font-size:2.3em;
+    }
+    margin-top: 20px;
+	margin-bottom: 25px;
+
+	@media screen and (min-width: 960px) {
+		height: 75px;
+		align-items: center;
+        margin-bottom: 10px;
+        margin-top: 0;
+	}
+	.stroked-buttons {
+		margin-bottom: 15px;
+
+		@media screen and (min-width: 960px) {
+			margin-bottom: 0;
+		}
+	}
+	
+}
+.calendarActions ~ div {
+  overflow: scroll;
+}
+.calendar-month {
+	margin-bottom: 20px;
+
+	@media screen and (min-width: 960px) {
+		margin-bottom: 0;
+	}
+}
+mwl-calendar-event-actions {
+    height: 24px;
+}
+mwl-calendar-event-title {
+    position: relative;
+    top: -1px;
+    margin-right: 5px;
+}
+mwl-calendar-month-view {
+    font-size: 12px!important;
+
+    @media screen and (min-width: 660px) {
+        font-size: 14px!important;
+        overflow: initial;
+    }
+
+    .cal-month-view {
+      min-width: 600px;
+      overflow: scroll;
+    }
+
+}
+.cal-month-view .cal-header .cal-cell {
+    @media screen and (min-width: 700px) {
+        font-size: 16px;
+    }
+}
+.cal-month-view .cal-open-day-events > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+.cal-month-view .cal-open-day-events .cal-event {
+    top: auto;
+}
+.cal-month-view .cal-events {
+  align-items: start;
+  flex-direction: column;
+  margin-top:8px;
+
+  @media screen and (min-width: 800px) {
+    margin-top: 3px;
+  }
+}
+.cal-month-view .cal-event {
+  height: auto;
+  width: 100%;
+  border-radius: 0;
+  padding: 2px;
+  line-height: 1.4;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 8px;
+
+  
+  span {
+      
+
+      @media screen and (min-width: 960px) {
+          display:inline;
+      }
+  }
+  
+}
+.cal-month-view .cal-cell-top {
+  height: 30px;
+  max-height: 30px!important;
+  min-height: 0!important;
+  display: flex;
+  align-items: center;
+  flex: 0 0 30px;
+  justify-content: flex-end;
+}
+.cal-month-view .cal-out-month .cal-event {
+  opacity: 0.6;
+}
+.cal-open-day-events {
+  
+  padding: 4px !important;
+
+  > * {
+    position: relative;
+  }
+  .cal-event {
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+    width: calc(100% - 4px);
+
+    @media screen and (max-width: 600px) {
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+  mwl-calendar-event-title {
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    line-height: 25px;
+  }
+
+  .income-event {
+    background-color: transparent!important;
+
+    .cal-event {
+      background-color: #8E9AAF!important;
+    }
+  }
+  .expense-event {
+    background-color: transparent!important;
+
+    .cal-event {
+      background-color: #CBC0D3!important;
+    }
+  }
+  .investment-event {
+    background-color: transparent!important;
+
+    .cal-event {
+      background-color: #EFD3D7!important;
+    }
+  }
+  .debt-event {
+    background-color: transparent!important;
+
+    .cal-event {
+      background-color: #C17C74!important;
+    }
+  }
+  .savings-event {
+    background-color: transparent!important;
+
+    .cal-event {
+      background-color: #5D576B!important;
+    }
+  }
+}
+.cal-month-view {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    .income,
+    .income-event {
+    background-color: #8E9AAF!important;
+    }
+    .expense,
+    .expense-event {
+    background-color: #CBC0D3!important;
+    }
+    .investment,
+    .investment-event {
+    background-color: #EFD3D7!important;
+    }
+    .debt,
+    .debt-event {
+    background-color: #C17C74!important;
+    }
+    .savings,
+    .savings-event {
+    background-color: #5D576B!important;
+    color: #FFF!important;
+    }
+}
+
+
+
+
+.cal-month-view .cal-day-number {
+    font-size: inherit;
+    flex: 0 0 auto;
+    margin-right: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+    font-size: inherit;
+}
+.cal-month-view .cal-day-badge {
+    font-size: 10px!important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 12px;
+    background-color: transparent;
+    margin-top: 0;
+    color: #fff;
+    height: 15px;
+    z-index: 1;
+    position: relative;
+
+    &:before {
+        content: '';
+        width: 15px;
+        height: 15px;
+        background-color: #2a2e35;
+        position: absolute;
+        z-index: -1;
+        left: -4px;
+        border-radius: 50%;
+        top: 1px;
+    }
+
+    @media screen and (min-width: 660px) {
+        height: 20px;
+
+        &:before {
+            left: -5px;
+            height: 20px;
+            width: 20px;
+        }
+    }
+
+  }
+.dash {
+  background-color: #2a2e35;
+  color: #FFF;
+}
+.mat-stroked-button,
+.mat-flat-button {
+  font-family: "Roboto Slab", sans-serif;
+}
+.stroked-buttons {
+  .mat-stroked-button:nth-of-type(1) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;  
+  }
+  .mat-stroked-button:nth-of-type(2) {
+    border-radius: 0;
+  }
+  .mat-stroked-button:nth-of-type(3) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;  
+  }
+  .mat-stroked-button{
+    &.active {
+      background-color: #2a2e35;
+      color: #fff;
+    }
+  }
+}

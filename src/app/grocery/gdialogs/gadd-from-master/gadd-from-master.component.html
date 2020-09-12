@@ -1,0 +1,41 @@
+<mat-dialog-content>
+<mat-table [dataSource]="mldataSource" [trackBy]="trackByUid" matSort #msort="matSort" class="mat-elevation-z8 grocery-table">
+
+    <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+    <!-- Selection Column -->
+    <ng-container matColumnDef="selection">
+        <mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+
+            </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+    </ng-container>
+
+    <!-- Category Column -->
+    <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="icon-col"> Category </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="icon-col"><mat-icon matListIcon svgIcon="{{element.category}}"></mat-icon></mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="mlistDisplayedCols"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: mlistDisplayedCols;" (click)="selection.toggle(row)"></mat-row>
+</mat-table>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" [disabled]="selection.selected.length == 0" (click)="addItemsToList()">Add Items</button>
+    <button mat-raised-button (click)="cancelAdd()">Cancel Add</button> 
+</mat-dialog-actions>
+

@@ -1,30 +1,32 @@
-<div>
-    <p>Budget form values are: {{budgetForm.value | json}}</p>
-    <p>Model is: {{model | json}}</p>
-<!--<form #recordForm="ngForm" (ngSubmit)="onSubmit(recordForm)" name="myForm" class="o-form budgetForm editform">-->
-<form [formGroup]="budgetForm" (ngSubmit)="onSubmit(budgetForm.value)">
+<div class="page-content inner-container">
+<form [formGroup]="budgetForm" (ngSubmit)="onSubmit($event)">
     <h2>Add or Edit Your Record</h2>
 
-    <mat-form-field>
-        <mat-select [(value)]="model.type" formControlName="type" placeholder="Type">
+    <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type" disabled>
             <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
         </mat-select>
         <mat-error *ngIf="hasError('type', 'required')">
             A transaction type is required
         </mat-error>
     </mat-form-field>
+    <br>
 
 
-    <mat-form-field>
-        <input matInput formControlName="title" placeholder="Title">
+    <mat-form-field appearance="outline" class="detail-title-field">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
         <mat-error *ngIf="hasError('title', 'required')">
             A title is required
         </mat-error>
     </mat-form-field>
 
     <!-- assetValue only required for investments -->
-    <mat-form-field *ngIf="budgetForm.value.type == 'Investment'">
-        <input matInput type="number" formControlName="assetValue" placeholder="Current Value">
+    <mat-form-field *ngIf="budgetForm.value.type == 'Investment'" appearance="outline">
+        <mat-label>Current Value</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input matInput type="number" formControlName="assetValue">
         <mat-error *ngIf="hasError('assetValue', 'required')">
             A current value is required
         </mat-error>
@@ -32,25 +34,28 @@
     <!-- end of conditional assetValue -->
 
     <mat-form-field
-        *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Savings'">
-        <input matInput type="number" formControlName="amount" placeholder="Amount">
+        *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Saving'" appearance="outline">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="amount">
+        <span matPrefix>$&nbsp;</span>
         <mat-error *ngIf="hasError('amount', 'required')">
             An amount is required
         </mat-error>
     </mat-form-field>
+
     <!-- frequency not required for type: Debt or Investment -->
     <mat-form-field
-        *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Savings'">
-        <mat-select [(value)]="model.frequency" formControlName="frequency" placeholder="Frequency">
-            <mat-option *ngFor="let frequency of frequencies" [value]="frequency">{{frequency}}</mat-option>
+        *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Saving'" appearance="outline">
+        <mat-select formControlName="frequency" placeholder="Frequency">
+            <mat-option *ngFor="let frequency of frequencies" [value]="frequency.value">{{frequency.viewValue}}</mat-option>
         </mat-select>
     </mat-form-field>
     <!-- end of condition frequency field -->
 
     <!-- payment method only applies to expenses and savings -->
     <mat-form-field
-        *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Savings'">
-        <mat-select [(value)]="model.method" formControlName="method" placeholder="Method">
+        *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Saving'" appearance="outline">
+        <mat-select formControlName="method" placeholder="Method">
             <mat-option *ngFor="let method of methods" [value]="method">{{method}}</mat-option>
         </mat-select>
         <mat-error *ngIf="hasError('method', 'required')">
@@ -60,28 +65,25 @@
     <!-- end of conditional fields -->
 
     <!-- starting date, next date not required for types: Debt or Investment -->
-    <mat-form-field *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Savings'">
-        <input matInput [matDatepicker]="startpicker" placeholder="Initial Date" formControlName="initialDate">
+    <mat-form-field *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Saving'" appearance="outline">
+        <input matInput [matDatepicker]="startpicker" placeholder="Start Date" formControlName="start">
         <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
         <mat-datepicker #startpicker></mat-datepicker>
     </mat-form-field>
-    
-    <mat-form-field *ngIf="budgetForm.value.type == 'Income' || budgetForm.value.type == 'Expense' || budgetForm.value.type == 'Savings'">
-        <input matInput [matDatepicker]="nextpicker" placeholder="Next Occurence" formControlName="nextDate">
-        <mat-datepicker-toggle matSuffix [for]="nextpicker"></mat-datepicker-toggle>
-        <mat-datepicker #nextpicker></mat-datepicker>
-    </mat-form-field>
-    <!-- starting and next date conditionals -->
 
     <!-- debt only fields -->
-    <mat-form-field *ngIf="budgetForm.value.type == 'Debt'">
-        <input matInput type="number" formControlName="owing" placeholder="Amount owing">
+    <mat-form-field *ngIf="budgetForm.value.type == 'Debt'" appearance="outline">
+        <mat-label>Amount Owing</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input matInput type="number" formControlName="owing">
         <mat-error *ngIf="hasError('owing', 'required')">
             An amount owing is required
         </mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="budgetForm.value.type == 'Debt'">
-        <input matInput type="number" formControlName="rate" placeholder="Interest rate">
+    <mat-form-field *ngIf="budgetForm.value.type == 'Debt'" appearance="outline">
+        <mat-label>Interest Rate</mat-label>
+        <input matInput type="number" formControlName="rate">
+        <span matSuffix>&nbsp;%</span>
         <mat-error *ngIf="hasError('rate', 'required')">
             The rate is required
         </mat-error>
@@ -89,16 +91,16 @@
     <!-- end of debt only fields -->
 
 
-    <mat-form-field>
-        <textarea matInput formControlName="notes" placeholder="Notes"></textarea>
+    <mat-form-field appearance="outline" class="form-full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput formControlName="notes"></textarea>
     </mat-form-field>
     <div class="o-btn-group">
         <button type="submit" class="o-btn o-btn--primary">Save Record</button>
         <button class="o-btn o-btn--primary" (click)="cancelEdit()">Cancel</button>
+        <button class="o-btn o-btn--primary" (click)="deleteRecord()">Delete Record</button>
     </div>
 </form>
-<!--</form>-->
-
 </div>
 
 

@@ -1,0 +1,100 @@
+<div *ngIf="isLoading" fxLayout fxLayoutAlign="center" class="recipeLoader">
+    <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+    </mat-progress-spinner>
+</div>
+<div *ngIf="recipe.title">
+            <figure class="recipe__fig">
+                <img src="{{recipe.img}}" alt="Tomato" class="recipe__img">
+                <h1 class="recipe__title">
+                    <span>{{ recipe.title }}</span>
+                </h1>
+            </figure>
+            <div class="recipe__details">
+                <div>
+                    <div class="recipe__info">
+                        <svg class="recipe__info-icon">
+                            <use href="../../assets/forkify/icons.svg#icon-stopwatch"></use>
+                        </svg>
+                        <span class="recipe__info-data recipe__info-data--minutes">{{ recipe.time }}</span>
+                        <span class="recipe__info-text"> minutes</span>
+                    </div>
+                    <div class="recipe__info">
+                        <svg class="recipe__info-icon">
+                            <use href="../../assets/forkify/icons.svg#icon-man"></use>
+                        </svg>
+                        <span class="recipe__info-data recipe__info-data--people">{{ recipe.servings }}</span>
+                        <span class="recipe__info-text"> servings</span>
+                    
+                        <div class="recipe__info-buttons">
+                            <button class="btn-tiny btn-decrease">
+                                <svg>
+                                    <use href="../../assets/forkify/icons.svg#icon-circle-with-minus"></use>
+                                </svg>
+                            </button>
+                            <button class="btn-tiny btn-increase">
+                                <svg>
+                                    <use href="../../assets/forkify/icons.svg#icon-circle-with-plus"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+                <button class="recipe__love" (click)="toggleLiked(recipe)">
+                    <svg class="header__likes">
+                        <ng-container *ngIf="recipeIsLiked">
+                            <use href="../../assets/forkify/icons.svg#icon-heart"></use>
+                        </ng-container>
+                        <ng-container *ngIf="!recipeIsLiked">
+                            <use href="../../assets/forkify/icons.svg#icon-heart-outlined"></use>
+                        </ng-container>
+                    </svg>
+                </button>
+            </div>
+
+
+
+            <div class="recipe__ingredients">
+                <ul class="recipe__ingredient-list">
+                    <li class="recipe__item" *ngFor="let ingredient of recipe.ingredients">
+                        <svg class="recipe__icon">
+                            <use href="../../assets/forkify/icons.svg#icon-check"></use>
+                        </svg>
+                        <div class="recipe__count">{{ formatCount(ingredient.count) }}</div>
+                        <div class="recipe__ingredient">
+                            <span class="recipe__unit">{{ ingredient.unit }}</span>
+                            {{ ingredient.ingredient }}
+                        </div>
+                    </li>
+
+                </ul>
+
+                <button class="btn-small recipe__btn recipe__btn--add" (click)="onAddIngredientsClick(recipe.ingredients)">
+                    <svg class="cart__icon">
+                        <use href="../../assets/forkify/icons.svg#icon-shopping-cart"></use>
+                    </svg>
+                    <span>Add to shopping list</span>
+                </button>
+            </div>
+
+            <div class="recipe__directions">
+                <h2 class="heading-2">How to cook it</h2>
+                <p class="recipe__directions-text">
+                    This recipe was carefully designed and tested by
+                    <span class="recipe__by">The Pioneer Woman</span>. Please check out directions at their website.
+                </p>
+                <a class="btn-small recipe__btn" href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/" target="_blank">
+                    <span>Directions</span>
+                    <svg class="search__icon">
+                        <use href="../../assets/forkify/icons.svg#icon-triangle-right"></use>
+                    </svg>
+
+                </a>
+            </div>
+</div>
+<div *ngIf="!recipe.title" class="recipe--norecipe">
+    <h2>NOTHING COOKING?</h2> 
+    <h3>Use the search bar above to search from over 1 million recipes curated by the Food2Fork service.</h3>
+    <h5></h5>
+</div>

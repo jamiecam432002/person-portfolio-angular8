@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: 'investments', component: BudgetListComponent },
   { path: 'debts', component: BudgetListComponent },
   { path: 'savings', component: BudgetListComponent },
-  { path: 'add-edit-record', component: BudgetDetailComponent },
-  { path: 'add-edit-record/:id', component: BudgetDetailComponent }
+  { path: 'add-edit-record/:type/:id', component: BudgetDetailComponent },
+  { path: 'add-edit-record/:id', component: BudgetDetailComponent },
 
 ];
 

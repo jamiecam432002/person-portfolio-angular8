@@ -8,8 +8,8 @@ import { AppComponent } from './app.component';
 
 import { SharedModule} from './shared/shared.module';
 import { FooModule } from './foo/foo.module';
-import { ForkifyModule } from './forkify/forkify.module';
-import { GroceryModule } from './grocery/grocery.module';
+//import { ForkifyModule } from './forkify/forkify.module';
+//import { GroceryModule } from './grocery/grocery.module';
 import { KawhiModule } from './kawhi/kawhi.module';
 
 
@@ -19,6 +19,8 @@ import { ExtrasComponent } from './portfolioapp/extras/extras.component';
 import { PortfolioComponent } from './portfolioapp/portfolio/portfolio.component';
 import { ContactComponent } from './portfolioapp/contact/contact.component';
 import { BjsChartComponent } from './portfolioapp/bjs-chart/bjs-chart.component';
+import { AngularProjectsComponent } from './portfolioapp/angular-projects/angular-projects.component';
+
 
 // reusable header and footer including navigation
 import { HeaderComponent } from './shared/header/header.component';
@@ -34,16 +36,18 @@ import { FooterComponent } from './shared/footer/footer.component';
     ContactComponent,
     BjsChartComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AngularProjectsComponent,
+    
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FooModule,
-    ForkifyModule,
-    GroceryModule,
+    //ForkifyModule,
+    //GroceryModule,
     KawhiModule,
     SharedModule,
 

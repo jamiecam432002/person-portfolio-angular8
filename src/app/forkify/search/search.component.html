@@ -1,0 +1,31 @@
+
+<div *ngIf="isLoading" fxLayout fxLayoutAlign="center">
+    <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+    </mat-progress-spinner>
+</div>
+<ng-template [ngIf]="resultsShouldFold == false" [ngIfElse]="resultsHidden">
+
+<h2>Search Results</h2>
+<ul class="results__list">
+    <li *ngFor="let result of results | paginate: { itemsPerPage: 10, currentPage: p}">
+        <a class="results__link" [class.results__link--active]="isActive == result.recipe_id" [attr.data-id]="result.recipe_id" (click)="onRecipeClick(result.recipe_id)">
+            <figure class="results__fig">
+                <img src="{{ result.image_url}}" alt="{{ result.title }}">
+            </figure>
+            <div class="results__data">
+                <h4 class="results__name">{{ limitRecipeTitle(result.title) }}</h4>
+                <p class="results__author">{{ result.publisher }}</p>
+            </div>
+        </a>
+    </li>
+</ul>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</ng-template>
+<ng-template #resultsHidden>
+    <a class="btn-small" (click)="onResultsBack($event)">
+        <svg class="search__icon">
+            <use href="../../assets/forkify/icons.svg#icon-triangle-left"></use>
+        </svg>
+        <span>Back to Search Results</span>
+    </a>
+</ng-template>

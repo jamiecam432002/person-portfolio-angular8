@@ -1,7 +1,8 @@
-import { Component, OnInit, OnChanges, ViewEncapsulation, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { PlayerWar } from '../../../assets/data/playerwar.model';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-bjs-chart',
@@ -9,83 +10,98 @@ import { CompileShallowModuleMetadata } from '@angular/compiler';
   styleUrls: ['./bjs-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class BjsChartComponent implements OnChanges {
+export class BjsChartComponent {
   @ViewChild('chart', {static: false}) 
-  private chartContainer: ElementRef;
 
-  @Input() data: PlayerWar[];
+  data: Observable<PlayerWar[]>;
+  dataUrl = 'assets/data/data.json';
+  playerData: PlayerWar[];
+  
+  constructor(private http: HttpClient) {}
 
-  margin = {top: 40, right: 20, bottom: 80, left: 40};
+  margin = { top: 20, right: 0, bottom: 70, left: 30 };
+  width = 1000 - (this.margin.left + this.margin.right);
+  height = 500;
 
-  constructor() { }
-
-  ngOnChanges(): void {
-    if (!this.data) { return; }
-
-    this.createChart();
+  ngOnInit() {
+    this.getData();
   }
-
+  
+  getData() {
+    this.data = this.http.get<PlayerWar[]>(this.dataUrl);
+    this.data.subscribe(data => {
+      this.playerData = data
+      this.createChart();
+    });
+  }
   onResize(e) {
     this.createChart();
   }
 
-  private createChart(): void {
+  private  createChart() {
+    
+
     d3.selectAll('svg').remove();
 
-    const element = this.chartContainer.nativeElement;
-    console.log(`${element.offsetWidth} is the width of the container`);
-    console.log(`${element.offsetHeight} is the height of the container`);
+    const data = this.playerData;
 
-    const data = this.data;
-  
-    const svg = d3.select(element).append('svg')
-        .attr('width', element.offsetWidth)
-        .attr('height', '100%');
-        
-
-    const contentWidth = element.offsetWidth - this.margin.left - this.margin.right;
-    const contentHeight = element.offsetHeight - this.margin.top - this.margin.bottom;
-    console.log(`${contentWidth} is the content width inside the container`);
-
-    const x = d3
-      .scaleBand()
-      .range([this.margin.left, contentWidth - this.margin.right])
-      .padding(0.1)
-      .domain(data.map(d => d.name));
-
+    // add y-axis
     const y = d3
       .scaleLinear()
-      .rangeRound([contentHeight, 0])
-      .domain([0, d3.max(data, d => d.value)]);
+      .range([this.height - this.margin.bottom, this.margin.top])
+      .domain([0, d3.max(data.map(d => d.value))])
 
-    const g = svg.append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+    // x-axis
+    const x = d3
+      .scaleBand()
+      .range([this.margin.left, this.width - this.margin.right])
+      .domain(data.map(d => d.name))
+      .padding(0.1);
+  
+    const svg = d3.select("#chart").append('svg')
+        .attr('viewBox', `0, 0, ${this.width}, ${this.height}`);
 
-    g.append('g')
-      .attr('class', 'axis axis--x')
-      .attr('transform', 'translate(0,' + contentHeight + ')')
-      .call(d3.axisBottom(x));
+       
+    svg.append("g")
+      .attr("fill", "#134a8e")
+      .selectAll("rect")
+      .data(data)
+      .join("rect")
+      .attr("x", (d) => x(d.name))
+      .attr("y", (d) => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", 0)
+        
+    
+    
 
-    g.append('g')
-      .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(20, 's'))
+    svg.append("g")
+      .attr("transform", `translate(0, ${this.height - this.margin.bottom})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .attr("transform", "translate(-10,0) rotate(-45)")
+      .style("text-anchor", "end");
+
       
 
-    g.selectAll('.axis--x text')
-      .attr('transform', 'rotate(45)')
-      .attr('text-anchor', 'start')
-      .attr('y', 9)
-			.attr('x', 9)
-			.attr('dy', '.35em')
+    svg.append("g")
+    .attr("transform", `translate(${this.margin.left}, 0)`)
+    .call(d3.axisLeft(y));
 
-    g.selectAll('.bar')
-      .data(data)
-      .enter().append('rect')
-        .attr('class', 'bar')
-        .attr('x', d => x(d.name))
-        .attr('y', d => y(d.value))
-        .attr('width', x.bandwidth())
-        .attr('height', d => contentHeight - y(d.value));
+    // bars
+
+
+    svg.selectAll("rect")
+    .data(this.playerData)
+    .transition()
+    .duration(1100)
+    .attr('y', d => y(d.value))
+    .attr("height", d => y(0) - y(d.value))
+    .delay(function(d,i) {
+      return (i * 100);
+    });
+
+    
   }
 
   
